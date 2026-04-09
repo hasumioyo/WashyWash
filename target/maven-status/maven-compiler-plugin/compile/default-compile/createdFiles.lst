@@ -1,0 +1,7 @@
+com\washywash\view\FormBarang.class
+com\washywash\model\Barang.class
+com\washywash\repository\BarangRepository.class
+com\washywash\repository\impl\BarangRepositoryImpl.class
+com\washywash\config\DatabaseConnection.class
+com\washywash\service\BarangService.class
+com\washywash\Main.class
