@@ -11,7 +11,7 @@ import com.washywash.service.BarangService;
 import java.awt.*;
 import java.util.List;
 
-public class FormBarang extends JFrame {
+public class FormBarang extends JPanel {
     private JTextField txtKodeBarang;
     private JTextField txtNamaBarang;
     private JComboBox<String> cmbJenisBarang;
@@ -39,39 +39,64 @@ public class FormBarang extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Form Data Barang");
-        setSize(850, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         JPanel panelUtama = new JPanel(new BorderLayout(10, 10));
         panelUtama.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel panelForm = new JPanel(new GridLayout(7, 2, 8, 8));
+        JPanel panelForm = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        panelForm.add(new JLabel("Kode Barang"));
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Kode
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+        panelForm.add(new JLabel("Kode Barang"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         txtKodeBarang = new JTextField();
-        panelForm.add(txtKodeBarang);
+        panelForm.add(txtKodeBarang, gbc);
 
-        panelForm.add(new JLabel("Nama Barang"));
+        // Nama
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        panelForm.add(new JLabel("Nama Barang"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         txtNamaBarang = new JTextField();
-        panelForm.add(txtNamaBarang);
+        panelForm.add(txtNamaBarang, gbc);
 
-        panelForm.add(new JLabel("Jenis Barang"));
+        // Jenis
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+        panelForm.add(new JLabel("Jenis Barang"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         cmbJenisBarang = new JComboBox<>(new String[]{"Jasa", "Barang"});
-        panelForm.add(cmbJenisBarang);
+        panelForm.add(cmbJenisBarang, gbc);
 
-        panelForm.add(new JLabel("Satuan"));
+        // Satuan
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+        panelForm.add(new JLabel("Satuan"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         cmbSatuan = new JComboBox<>(new String[]{"KG", "PCS", "SET", "UNIT"});
-        panelForm.add(cmbSatuan);
+        panelForm.add(cmbSatuan, gbc);
 
-        panelForm.add(new JLabel("Harga"));
+        // Harga
+        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
+        panelForm.add(new JLabel("Harga"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         txtHarga = new JTextField();
-        panelForm.add(txtHarga);
+        panelForm.add(txtHarga, gbc);
 
-        panelForm.add(new JLabel("Stok"));
+        // Stok
+        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0;
+        panelForm.add(new JLabel("Stok"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
         txtStok = new JTextField();
-        panelForm.add(txtStok);
+        panelForm.add(txtStok, gbc);
 
         JPanel panelButton = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnSimpan = new JButton("Simpan");
@@ -86,8 +111,12 @@ public class FormBarang extends JFrame {
         panelButton.add(btnCari);
         panelButton.add(btnReset);
 
-        panelForm.add(new JLabel("Aksi"));
-        panelForm.add(panelButton);
+        // Aksi
+        gbc.gridx = 0; gbc.gridy = 6; gbc.weightx = 0;
+        panelForm.add(new JLabel("Aksi"), gbc);
+
+        gbc.gridx = 1; gbc.weightx = 1.0;
+        panelForm.add(panelButton, gbc);
 
         String[] columnNames = {"Kode Barang", "Nama Barang", "Jenis Barang", "Satuan", "Harga", "Stok"};
         tableModel = new DefaultTableModel(columnNames, 0);

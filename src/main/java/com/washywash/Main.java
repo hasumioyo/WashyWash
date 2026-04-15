@@ -1,11 +1,11 @@
 package com.washywash;
 
-import com.washywash.view.FormBarang;
+import com.washywash.view.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(() -> {
-            new FormBarang().setVisible(true);
+            new MainMenu().setVisible(true);
         });   
     }
 }

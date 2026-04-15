@@ -8,8 +8,7 @@ public class Barang {
     private double harga;
     private int stok;
 
-    public Barang() {
-    }
+    public Barang() {}
 
     public Barang(String kodeBarang, String namaBarang, 
     String jenisBarang, String satuan, double harga, int stok) {
@@ -41,7 +40,7 @@ public class Barang {
         return jenisBarang;
     }
 
-    public void setKategori(String jenisBarang) {
+    public void setJenisBarang(String jenisBarang) {
         this.jenisBarang = jenisBarang;
     }
 
