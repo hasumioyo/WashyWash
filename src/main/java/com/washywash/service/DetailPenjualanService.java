@@ -17,12 +17,16 @@ public class DetailPenjualanService {
         detailRepository.save(detail);
     }
 
-    public void hapusByPenjualan(String kodePenjualan) {
+    public void hapusItem(String kodePenjualan, String kodeBarang) {
         if (kodePenjualan == null || kodePenjualan.isBlank()) {
             throw new IllegalArgumentException("Kode penjualan wajib diisi.");
         }
 
-        detailRepository.deleteByPenjualan(kodePenjualan);
+        if (kodeBarang == null || kodeBarang.isBlank()) {
+            throw new IllegalArgumentException("Kode barang wajib diisi.");
+        }
+
+        detailRepository.hapusDariPenjualanDanBarang(kodePenjualan, kodeBarang);
     }
 
     public List<DetailPenjualan> getByPenjualan(String kodePenjualan) {
@@ -70,5 +74,9 @@ public class DetailPenjualanService {
             detail.getBarang().getKodeBarang().isBlank()) {
             throw new IllegalArgumentException("Kode barang wajib diisi.");
         }
+    }
+
+    public List<DetailPenjualan> getByKodePenjualan(String kode) {
+        return detailRepository.findByPenjualan(kode);
     }
 }

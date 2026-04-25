@@ -2,6 +2,7 @@ package com.washywash.repository;
 
 import com.washywash.model.Penjualan;
 import java.util.List;
+import java.util.Date;
 
 public interface PenjualanRepository {
     void save(Penjualan penjualan);
@@ -9,4 +10,5 @@ public interface PenjualanRepository {
     void delete(String kodePenjualan);
     Penjualan findById(String kodePenjualan);
     List<Penjualan> findAll();
+    List<Penjualan> findByTanggalRange(Date dari, Date sampai);
 }

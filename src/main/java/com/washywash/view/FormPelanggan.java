@@ -100,7 +100,13 @@ public class FormPelanggan extends JPanel {
         gbc.gridx = 1; gbc.weightx = 1.0;
         panelForm.add(panelButton, gbc);
 
-        String[] columnNames = {"Kode Pelanggan", "Nama Pelanggan", "No HP", "Email"};
+        String[] columnNames = {
+            "Kode Pelanggan", 
+            "Nama Pelanggan", 
+            "No HP", 
+            "Email"
+        };
+        
         tableModel = new DefaultTableModel(columnNames, 0);
         tablePelanggan = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tablePelanggan);

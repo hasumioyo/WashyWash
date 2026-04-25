@@ -2,6 +2,7 @@ package com.washywash.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Component;
 
 public class MainMenu extends JFrame {
 
@@ -14,61 +15,110 @@ public class MainMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panelSidebar = new JPanel();
-        panelSidebar.setLayout(new BoxLayout(panelSidebar, BoxLayout.Y_AXIS));
-        panelSidebar.setPreferredSize(new Dimension(200, 0));
-        panelSidebar.setBorder(
+        setLayout(new BorderLayout());
+
+        JPanel sidebar = createSidebar();
+        panelContent = createContent();
+
+        add(sidebar, BorderLayout.WEST);
+        add(panelContent, BorderLayout.CENTER);
+    }
+
+    private JPanel createSidebar() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(200, 0));
+        panel.setBackground(new Color(32, 178, 170));
+        panel.setBorder(
             BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(32, 178, 170)), // garis kanan
+                BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(32, 178, 170)),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)
             )
         );
-        panelSidebar.setBackground(new Color(32, 178, 170));
 
-        JButton btnPelanggan = new JButton("Pelanggan");
-        JButton btnBarang = new JButton("Barang");
-        JButton btnPenjualan = new JButton("Penjualan");
+        JButton btnPelanggan = createButton("Pelanggan");
+        JButton btnBarang = createButton("Barang");
 
-        btnPelanggan.setBackground(new Color(255, 255, 255));
-        btnPelanggan.setForeground(new Color(32, 178, 170)); 
+        JComboBox<String> cmbPenjualan = createComboBox(new String[]{
+            "Penjualan",
+            "Tambah Penjualan",
+            "History Penjualan"
+        });
 
-        btnBarang.setBackground(new Color(255, 255, 255));
-        btnBarang.setForeground(new Color(32, 178, 170));
+        btnPelanggan.addActionListener(e ->
+            cardLayout.show(panelContent, "pelanggan")
+        );
 
-        btnPenjualan.setBackground(new Color(255, 255, 255));
-        btnPenjualan.setForeground(new Color(32, 178, 170));
+        btnBarang.addActionListener(e ->
+            cardLayout.show(panelContent, "barang")
+        );
 
-        btnPelanggan.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        btnBarang.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        btnPenjualan.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        cmbPenjualan.addActionListener(e -> {
+            String selected = (String) cmbPenjualan.getSelectedItem();
 
-        panelSidebar.add(btnPelanggan);
-        panelSidebar.add(Box.createVerticalStrut(10));
-        panelSidebar.add(btnBarang);
-        panelSidebar.add(Box.createVerticalStrut(10));
-        panelSidebar.add(btnPenjualan);
+            if ("Tambah Penjualan".equals(selected)) {
+                cardLayout.show(panelContent, "penjualan");
+            }
 
+            if ("History Penjualan".equals(selected)) {
+                cardLayout.show(panelContent, "history");
+            }
+
+            cmbPenjualan.setSelectedIndex(0); 
+        });
+
+        panel.add(btnPelanggan);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(btnBarang);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(cmbPenjualan);
+
+        return panel;
+    }
+
+    private JPanel createContent() {
         cardLayout = new CardLayout();
-        panelContent = new JPanel(cardLayout);
+        JPanel panel = new JPanel(cardLayout);
 
-        panelContent.add(new FormPelanggan(), "pelanggan");
-        panelContent.add(new FormBarang(), "barang");
-        panelContent.add(new FormPenjualan(), "penjualan");
+        panel.add(new FormPelanggan(), "pelanggan");
+        panel.add(new FormBarang(), "barang");
+        panel.add(new FormPenjualan(), "penjualan");
+        panel.add(new FormHistoryPenjualan(), "history");
 
-        btnPelanggan.addActionListener(e -> {
-            cardLayout.show(panelContent, "pelanggan");
+        return panel;
+    }
+
+    private JButton createButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setBackground(Color.WHITE);
+        btn.setForeground(new Color(32, 178, 170));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return btn;
+    }
+
+    private JComboBox<String> createComboBox(String[] items) {
+        JComboBox<String> cmb = new JComboBox<>(items);
+        cmb.setBackground(Color.WHITE);
+        cmb.setForeground(new Color(32, 178, 170));
+        cmb.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        cmb.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        cmb.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                JList<?> list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+
+                JLabel label = (JLabel) super.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+
+                label.setHorizontalAlignment(SwingConstants.CENTER); 
+                
+                return label;
+            }
         });
 
-        btnBarang.addActionListener(e -> {
-            cardLayout.show(panelContent, "barang");
-        });
-
-        btnPenjualan.addActionListener(e -> {
-            cardLayout.show(panelContent, "penjualan");
-        });
-
-        setLayout(new BorderLayout());
-        add(panelSidebar, BorderLayout.WEST);
-        add(panelContent, BorderLayout.CENTER);
+        return cmb;
     }
 }

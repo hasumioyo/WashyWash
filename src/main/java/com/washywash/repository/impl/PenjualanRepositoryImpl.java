@@ -8,6 +8,7 @@ import com.washywash.repository.PenjualanRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class PenjualanRepositoryImpl implements PenjualanRepository {
     @Override
@@ -126,6 +127,39 @@ public class PenjualanRepositoryImpl implements PenjualanRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Penjualan> findByTanggalRange(Date dari, Date sampai) {
+        List<Penjualan> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM penjualan WHERE tanggal BETWEEN ? AND ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setDate(1, new java.sql.Date(dari.getTime()));
+            ps.setDate(2, new java.sql.Date(sampai.getTime()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Penjualan p = new Penjualan();
+                p.setKodePenjualan(rs.getString("kode_penjualan"));
+                p.setTanggal(rs.getDate("tanggal"));
+                p.setTotal(rs.getDouble("total"));
+
+                // ⚠️ kalau ada pelanggan, sesuaikan ya
+                // p.setPelanggan(...);
+
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal ambil data penjualan: " + e.getMessage());
         }
 
         return list;

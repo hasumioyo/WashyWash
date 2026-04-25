@@ -30,12 +30,13 @@ public class DetailPenjualanRepositoryImpl implements DetailPenjualanRepository 
     }
 
     @Override
-    public void deleteByPenjualan(String kodePenjualan) {
-        String sql = "DELETE FROM detail_penjualan WHERE kode_penjualan=?";
+    public void hapusDariPenjualanDanBarang(String kodePenjualan, String kodeBarang) {
+        String sql = "DELETE FROM detail_penjualan WHERE kode_penjualan=? AND kode_barang=?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, kodePenjualan);
+            ps.setString(2, kodeBarang);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Gagal hapus detail penjualan: " + e.getMessage());

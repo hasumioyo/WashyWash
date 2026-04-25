@@ -4,6 +4,7 @@ import com.washywash.model.Penjualan;
 import com.washywash.repository.PenjualanRepository;
 
 import java.util.List;
+import java.util.Date;
 
 public class PenjualanService {
     private final PenjualanRepository penjualanRepository;
@@ -13,7 +14,7 @@ public class PenjualanService {
         this.penjualanRepository = penjualanRepository;
         this.detailService = detailService;
     }
-
+    
     public void tambahPenjualan(Penjualan penjualan) {
         validatePenjualan(penjualan);
 
@@ -78,5 +79,13 @@ public class PenjualanService {
             p.getPelanggan().getKodePelanggan().isBlank()) {
             throw new IllegalArgumentException("Pelanggan wajib diisi.");
         }
+    }
+
+    public List<Penjualan> getSemuaPenjualan() {
+        return penjualanRepository.findAll();
+    }
+
+    public List<Penjualan> cariByTanggal(Date dari, Date sampai) {
+        return penjualanRepository.findByTanggalRange(dari, sampai);
     }
 }
